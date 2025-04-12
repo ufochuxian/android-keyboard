@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 键盘预览 -->
+    <org.futo.inputmethod.keyboard.KeyboardView
+        android:id="@+id/keyboardPreview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 背景亮度标题 -->
+    <TextView
+        android:id="@+id/tvBrightness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Background Brightness"
+        app:layout_constraintTop_toBottomOf="@id/keyboardPreview"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="24dp" />
+
+    <!-- 背景亮度滑块 -->
+    <SeekBar
+        android:id="@+id/seekBrightness"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:max="100"
+        app:layout_constraintTop_toBottomOf="@id/tvBrightness"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 边框透明度标题 -->
+    <TextView
+        android:id="@+id/tvOpacity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Key Border Opacity"
+        app:layout_constraintTop_toBottomOf="@id/seekBrightness"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <!-- 边框透明度滑块 -->
+    <SeekBar
+        android:id="@+id/seekOpacity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:max="100"
+        app:layout_constraintTop_toBottomOf="@id/tvOpacity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 主题模式标题 -->
+    <TextView
+        android:id="@+id/tvThemeMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Light / Dark Mode"
+        app:layout_constraintTop_toBottomOf="@id/seekOpacity"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <!-- 深浅切换开关 -->
+    <Switch
+        android:id="@+id/switchTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/tvThemeMode"
+        app:layout_constraintTop_toTopOf="@id/tvThemeMode"
+        android:layout_marginStart="16dp" />
+
+    <!-- 取消按钮 -->
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        app:layout_constraintTop_toBottomOf="@id/switchTheme"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnApply"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp" />
+
+    <!-- 应用按钮 -->
+    <Button
+        android:id="@+id/btnApply"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Apply"
+        app:layout_constraintTop_toTopOf="@id/btnCancel"
+        app:layout_constraintStart_toEndOf="@id/btnCancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="8dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

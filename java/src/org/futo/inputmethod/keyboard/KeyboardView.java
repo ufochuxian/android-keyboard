@@ -38,6 +38,7 @@ import org.futo.inputmethod.latin.uix.DynamicThemeProvider;
 import org.futo.inputmethod.latin.R;
 import org.futo.inputmethod.latin.common.Constants;
 import org.futo.inputmethod.latin.utils.TypefaceUtils;
+import org.futo.inputmethod.theme.ThemeConfig;
 
 import java.util.HashSet;
 
@@ -585,6 +586,25 @@ public class KeyboardView extends View {
         }
         return paint;
     }
+
+    public void applyTheme(@Nonnull ThemeConfig config) {
+        // 设置背景图
+        if (config.getBackgroundDrawable() != null) {
+            Drawable bg = config.getBackgroundDrawable().mutate();
+            int bgAlpha = (int)(config.getBackgroundAlpha() * 255f);
+            bg.setAlpha(bgAlpha);
+            setBackground(bg);
+        }
+
+        // 设置键帽透明度（mAnimAlpha）
+        mKeyDrawParams.mAnimAlpha = (int)(config.getKeyAlpha() * 255f);
+
+        // 刷新渲染
+        invalidateAllKeys();
+        requestLayout();
+        invalidate();
+    }
+
 
     /**
      * Requests a redraw of the entire keyboard. Calling {@link #invalidate} is not sufficient

@@ -1,7 +1,11 @@
 package org.futo.inputmethod.latin.uix.settings
 
+import android.app.Activity
+import android.content.Intent
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -35,6 +39,7 @@ import org.futo.inputmethod.latin.uix.settings.pages.addModelManagerNavigation
 import org.futo.inputmethod.latin.uix.settings.pages.addTypingNavigation
 import org.futo.inputmethod.latin.uix.urlDecode
 import org.futo.inputmethod.latin.uix.urlEncode
+import org.futo.inputmethod.theme.ThemeActivity
 
 // Utility function for quick error messages
 fun NavHostController.navigateToError(title: String, body: String) {
@@ -74,7 +79,15 @@ fun SettingsNavigator(
         composable("blacklist") { BlacklistScreen(navController) }
         composable("payment") { PaymentScreen(navController) { navController.navigateUp() } }
         composable("paid") { PaymentThankYouScreen { navController.navigateUp() } }
-        composable("credits") { CreditsScreen(navController) }
+        composable("credits") {
+//            CreditsScreen(navController)
+            // 启动传统 Activity，并立刻返回上一个页面
+            val context = LocalContext.current
+            LaunchedEffect(Unit) {
+                context.startActivity(Intent(context, ThemeActivity::class.java))
+            }
+        }
+
         dialog("error/{title}/{body}") {
             ErrorDialog(
                 it.arguments?.getString("title")?.urlDecode() ?: stringResource(R.string.unknown_error),

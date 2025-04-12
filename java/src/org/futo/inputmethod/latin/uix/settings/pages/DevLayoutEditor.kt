@@ -160,7 +160,7 @@ fun LayoutEditor(layout: CustomLayout, onSave: (CustomLayout) -> Unit, onDelete:
 
     val options = KeyboardOptions.Default.copy(
         keyboardType = KeyboardType.Password,
-        autoCorrect = false
+//        autoCorrect = false
     )
 
     val cursorBrush = SolidColor(LocalKeyboardScheme.current.onSurfaceVariant)
