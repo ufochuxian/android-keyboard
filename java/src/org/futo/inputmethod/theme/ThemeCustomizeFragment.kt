@@ -15,19 +15,14 @@ import androidx.fragment.app.viewModels
 import org.futo.inputmethod.keyboard.internal.KeyboardLayoutElement
 import org.futo.inputmethod.keyboard.internal.KeyboardLayoutKind
 import org.futo.inputmethod.keyboard.internal.KeyboardLayoutPage
-import org.futo.inputmethod.latin.LatinIME
 import org.futo.inputmethod.latin.R
 import org.futo.inputmethod.latin.databinding.FragmentThemeCustomizeBinding
 import org.futo.inputmethod.latin.settings.LongPressKeySettings
 import org.futo.inputmethod.latin.settings.Settings
 import org.futo.inputmethod.latin.uix.BasicThemeProvider
-import org.futo.inputmethod.latin.uix.KeyboardColorScheme
-import org.futo.inputmethod.latin.uix.UixManager
-import org.futo.inputmethod.latin.uix.theme.presets.DefaultDarkScheme
 import org.futo.inputmethod.latin.uix.wrapLightColorScheme
 import org.futo.inputmethod.v2keyboard.KeyboardLayoutSetV2
 import org.futo.inputmethod.v2keyboard.KeyboardLayoutSetV2Params
-import org.futo.inputmethod.v2keyboard.KeyboardSizingCalculator
 import org.futo.inputmethod.v2keyboard.RegularKeyboardSize
 
 
@@ -36,6 +31,8 @@ class ThemeCustomizeFragment : BaseMviFragment<
         ThemeCustomizeIntent,
         ThemeCustomizeState,
         ThemeCustomizeViewModel>() {
+
+    private var themeConfig: ThemeConfig? = null
 
     companion object {
         private const val TAG = "ThemeCustomizeFragment"
@@ -78,12 +75,20 @@ class ThemeCustomizeFragment : BaseMviFragment<
 
         binding.seekBrightness.setOnSeekBarChangeListener(seekListener { value ->
             Log.d(TAG, "Brightness changed: $value")
-            viewModel.sendIntent(ThemeCustomizeIntent.UpdateBrightness(value / 100f))
+//            viewModel.sendIntent(ThemeCustomizeIntent.UpdateBrightness(value / 100f))
+            themeConfig?.let {
+                it.backgroundAlpha = value / 100f
+                binding.keyboardPreview.applyTheme(it)
+            }
         })
 
         binding.seekOpacity.setOnSeekBarChangeListener(seekListener { value ->
             Log.d(TAG, "Key opacity changed: $value")
-            viewModel.sendIntent(ThemeCustomizeIntent.UpdateOpacity(value / 100f))
+//            viewModel.sendIntent(ThemeCustomizeIntent.UpdateOpacity(value / 100f))
+            themeConfig?.let {
+                it.keyAlpha = value / 100f
+                binding.keyboardPreview.applyTheme(it)
+            }
         })
 
         binding.switchTheme.setOnCheckedChangeListener { _, isChecked ->
@@ -101,7 +106,7 @@ class ThemeCustomizeFragment : BaseMviFragment<
         Log.d(TAG, "Rendering state: $state")
 
         val context = requireContext()
-        val themeConfig = ThemeConfig(
+        themeConfig = ThemeConfig(
             backgroundDrawable = state.backgroundDrawable,
             backgroundAlpha = state.brightness,
             keyAlpha = state.keyOpacity
@@ -148,7 +153,7 @@ class ThemeCustomizeFragment : BaseMviFragment<
         binding.keyboardPreview.apply {
             setHardwareAcceleratedDrawingEnabled(true)
             setKeyboard(keyboard)
-            background = themeConfig.backgroundDrawable
+            background = themeConfig?.backgroundDrawable
             invalidateAllKeys()
         }
     }
