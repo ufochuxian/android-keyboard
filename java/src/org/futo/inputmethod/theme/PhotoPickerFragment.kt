@@ -38,7 +38,7 @@ class PhotoPickerFragment : BaseMviFragment<
     override fun render(state: PhotoPickerState) {
         if (state.navigateToEditor && state.selectedUri != null) {
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, PhotoEditFragment.newInstance(state.selectedUri.toString())) // ✅ FIXED
+                .add(R.id.fragment_container, PhotoEditFragment.newInstance(state.selectedUri.toString())) // ✅ FIXED
                 .addToBackStack(null)
                 .commit()
         }

@@ -6,7 +6,6 @@ import org.futo.inputmethod.latin.R
 import org.futo.inputmethod.latin.uix.BasicThemeProvider
 import org.futo.inputmethod.latin.uix.DynamicThemeProvider
 import org.futo.inputmethod.latin.uix.DynamicThemeProviderOwner
-import org.futo.inputmethod.latin.uix.theme.ThemeOptions
 import org.futo.inputmethod.latin.uix.theme.presets.DefaultDarkScheme
 
 class ThemeActivity : AppCompatActivity(), DynamicThemeProviderOwner {
@@ -26,7 +25,8 @@ class ThemeActivity : AppCompatActivity(), DynamicThemeProviderOwner {
         setContentView(R.layout.activity_theme)
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, PhotoPickerFragment.newInstance())
+            .add(R.id.fragment_container, PhotoPickerFragment.newInstance())
+            .addToBackStack(null)
             .commit()
     }
 
