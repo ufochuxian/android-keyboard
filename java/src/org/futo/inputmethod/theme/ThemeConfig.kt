@@ -7,3 +7,4 @@ data class ThemeConfig(
     val backgroundAlpha: Float = 1f,  // 0f~1f
     val keyAlpha: Float = 1f         // 0f~1f
 )
+

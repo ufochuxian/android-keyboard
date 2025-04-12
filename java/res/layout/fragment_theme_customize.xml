@@ -7,11 +7,12 @@
     android:layout_height="match_parent">
 
     <!-- 键盘预览 -->
-    <org.futo.inputmethod.keyboard.KeyboardView
+    <org.futo.inputmethod.keyboard.MainKeyboardView
         android:id="@+id/keyboardPreview"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
         android:layout_marginTop="16dp"
+        android:visibility="visible"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

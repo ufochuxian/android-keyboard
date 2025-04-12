@@ -39,12 +39,10 @@ class PhotoEditFragment : BaseMviFragment<
     override fun render(state: PhotoEditState) {
         if (state.navigateToCustomize && state.editedUri != null) {
             parentFragmentManager.beginTransaction()
-                .replace(
-                    R.id.container,
-                    ThemeCustomizeFragment.newInstance(state.editedUri.toString())
-                )
+                .replace(R.id.fragment_container, ThemeCustomizeFragment.newInstance(state.editedUri.toString())) // ✅ FIXED
                 .addToBackStack(null)
                 .commit()
         }
     }
+
 }
