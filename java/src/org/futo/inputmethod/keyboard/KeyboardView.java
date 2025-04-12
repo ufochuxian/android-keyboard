@@ -30,6 +30,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import org.futo.inputmethod.keyboard.internal.KeyDrawParams;
@@ -39,8 +40,10 @@ import org.futo.inputmethod.latin.R;
 import org.futo.inputmethod.latin.common.Constants;
 import org.futo.inputmethod.latin.utils.TypefaceUtils;
 import org.futo.inputmethod.theme.ThemeConfig;
+import org.futo.inputmethod.v2keyboard.KeyVisualStyle;
 
 import java.util.HashSet;
+import java.util.Objects;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -591,19 +594,33 @@ public class KeyboardView extends View {
         // 设置背景图
         if (config.getBackgroundDrawable() != null) {
             Drawable bg = config.getBackgroundDrawable().mutate();
-            int bgAlpha = (int)(config.getBackgroundAlpha() * 255f);
+            int bgAlpha = (int) (config.getBackgroundAlpha() * 255f);
             bg.setAlpha(bgAlpha);
             setBackground(bg);
+            Log.d("PreviewKeyboard", "设置背景图：alpha=" + bgAlpha);
+        } else {
+            Log.d("PreviewKeyboard", "未设置背景图");
         }
 
-        // 设置键帽透明度（mAnimAlpha）
-        mKeyDrawParams.mAnimAlpha = (int)(config.getKeyAlpha() * 255f);
+        // 设置键帽透明度（所有 key style）
+        int keyAlpha = (int) (config.getKeyAlpha() * 255f);
+        for (KeyVisualStyle style : KeyVisualStyle.values()) {
+            Drawable drawable = mDrawableProvider.getKeyStyleDescriptor(style).getBackgroundDrawable();
+            if (drawable != null) {
+                drawable.setAlpha(keyAlpha);
+                Log.d("PreviewKeyboard", "设置 " + style + " 背景透明度为 " + keyAlpha);
+            }
+        }
 
-        // 刷新渲染
+        mKeyDrawParams.mAnimAlpha = keyAlpha;
+
         invalidateAllKeys();
         requestLayout();
         invalidate();
     }
+
+
+
 
 
     /**

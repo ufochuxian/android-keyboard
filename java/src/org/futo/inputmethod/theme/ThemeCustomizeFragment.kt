@@ -77,7 +77,7 @@ class ThemeCustomizeFragment : BaseMviFragment<
             Log.d(TAG, "Brightness changed: $value")
 //            viewModel.sendIntent(ThemeCustomizeIntent.UpdateBrightness(value / 100f))
             themeConfig?.let {
-                it.backgroundAlpha = value / 100f
+                it.backgroundAlpha = 1.0f - value / 100f
                 binding.keyboardPreview.applyTheme(it)
             }
         })
@@ -86,7 +86,7 @@ class ThemeCustomizeFragment : BaseMviFragment<
             Log.d(TAG, "Key opacity changed: $value")
 //            viewModel.sendIntent(ThemeCustomizeIntent.UpdateOpacity(value / 100f))
             themeConfig?.let {
-                it.keyAlpha = value / 100f
+                it.keyAlpha = 1.0f - value / 100f
                 binding.keyboardPreview.applyTheme(it)
             }
         })
