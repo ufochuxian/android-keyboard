@@ -6,12 +6,26 @@
     android:layout_height="match_parent">
 
     <!-- 缩放 + 拖动预览 -->
-    <com.github.chrisbanes.photoview.PhotoView
-        android:id="@+id/photoView"
+    <FrameLayout
+        android:id="@+id/cropContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:scaleType="centerCrop" />
+        android:layout_weight="1">
+
+        <!-- 可缩放/可移动的图片 -->
+        <com.github.chrisbanes.photoview.PhotoView
+            android:id="@+id/photoView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <!-- 固定的裁剪框遮罩（半透明遮罩 + 中间透明）-->
+        <org.futo.inputmethod.theme.ClipOverlayView
+            android:id="@+id/clipOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+
 
     <!-- 下一步按钮 -->
     <Button
