@@ -12,6 +12,7 @@ import org.acra.config.dialog
 import org.acra.config.mailSender
 import org.acra.data.StringFormat
 import org.acra.ktx.initAcra
+import org.futo.inputmethod.theme.Env
 
 class CrashLoggingApplication : Application(), Configuration.Provider {
     override val workManagerConfiguration: Configuration
@@ -20,6 +21,8 @@ class CrashLoggingApplication : Application(), Configuration.Provider {
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
+
+        Env.context = this
 
         val userManager = getSystemService(Context.USER_SERVICE) as UserManager
         if(userManager.isUserUnlocked) {

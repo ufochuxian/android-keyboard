@@ -21,6 +21,7 @@ import org.futo.inputmethod.latin.settings.LongPressKeySettings
 import org.futo.inputmethod.latin.settings.Settings
 import org.futo.inputmethod.latin.uix.BasicThemeProvider
 import org.futo.inputmethod.latin.uix.wrapLightColorScheme
+import org.futo.inputmethod.theme.model.KeyboardViewStyle
 import org.futo.inputmethod.v2keyboard.KeyboardLayoutSetV2
 import org.futo.inputmethod.v2keyboard.KeyboardLayoutSetV2Params
 import org.futo.inputmethod.v2keyboard.RegularKeyboardSize
@@ -102,8 +103,35 @@ class ThemeCustomizeFragment : BaseMviFragment<
 
         binding.btnApply.setOnClickListener {
             Log.d(TAG, "Apply button clicked")
-            viewModel.sendIntent(ThemeCustomizeIntent.Apply)
+
+            themeConfig?.let { config ->
+                val themeId = ThemePackageWriter.saveThemePackage(
+                    context = requireContext(),
+                    keyboardViewStyle = KeyboardViewStyle(
+                        background = config.backgroundStyle,
+                        keyBackground = config.keyBackground,
+                        functionalKeyBackground = config.functionalKeyBackground,
+                        spacebarBackground = config.spacebarBackground,
+                        enterKeyBackground = config.enterKeyBackground,
+                        numKeyBackground = config.numKeyBackground,
+                        keyTextColor = config.keyTextColor,
+                        keyTextColorPressed = config.keyTextColorPressed,
+                        functionalKeyTextColor = config.functionalKeyTextColor
+                    ),
+                    backgroundDrawable = config.backgroundDrawable,
+                    backgroundAlpha = config.backgroundAlpha,
+                    keyAlpha = config.keyAlpha
+                )
+
+                if (themeId != null) {
+                    Log.e(TAG, "save $themeId 主题 成功.")
+//                    viewModel.sendIntent(ThemeCustomizeIntent.ApplyThemeId(themeId))
+                } else {
+                    Log.e(TAG, "Failed to save theme package.")
+                }
+            }
         }
+
     }
 
     override fun render(state: ThemeCustomizeState) {

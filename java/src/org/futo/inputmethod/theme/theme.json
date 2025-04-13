@@ -1,0 +1,19 @@
+{
+  "themeName": "深色真实风格",
+  "keyboardView": {
+    "background": {
+      "type": "image",
+      "imagePath": "drawable/xxx.png"
+    },
+    "enterKeyBackground": "#2C2C2C", // 对应 mEnterKeyBackground
+    "enterKeyTextColor": "#FFFFFF", // 自定义的字段，用于文字颜色（你可以扩展支持）
+    "spacebarBackground": "#2C2C2C", // 对应 mSpacebarBackground
+    "numKeyBackground": "#2C2C2C", // 对应 mNumKeyBackground
+    "keyTextColor": "#2C2C2C", // 对应 keyLabel 字体颜色
+    "keyTextColorPressed": "#3A3A3A", // 自定义字段（建议按压状态颜色）
+    "functionalKeyBackground": "#3D3D3D", // 对应 mFunctionalKeyBackground
+    "functionalKeyTextColor": "#DADADA" // 自定义字段（功能键文字颜色）
+    "backgroundAlpha":125,//0 -255 ,float类型
+    "keyAlpha": 125
+  }
+}
