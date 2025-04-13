@@ -150,9 +150,12 @@ class ThemeCustomizeFragment : BaseMviFragment<
         val settings = Settings.getInstance().current
 
         // 👇 手动构造一个默认的尺寸（宽度 = 屏宽，高度 = 280dp，padding 可忽略）
+        val horizontalPaddingDp = 16  // 你可以根据 themeConfig.padding.left/right 来定制
         val displayMetrics = context.resources.displayMetrics
-        val defaultHeight = (280 * displayMetrics.density).toInt()
-        val defaultWidth = displayMetrics.widthPixels
+        val horizontalPaddingPx = (horizontalPaddingDp * displayMetrics.density).toInt()
+        val defaultWidth = displayMetrics.widthPixels - horizontalPaddingPx * 2
+        val defaultHeight = (250 * displayMetrics.density).toInt()
+
 
         val computedSize = RegularKeyboardSize(
             width = defaultWidth,

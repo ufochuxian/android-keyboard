@@ -39,6 +39,14 @@ class PhotoEditFragment : BaseMviFragment<
         binding.photoView.setImageURI(uri)
         binding.photoView.attacher.setAllowDragAtMinScale(true)
 
+        val displayMetrics = resources.displayMetrics
+        val horizontalPaddingPx = (16 * displayMetrics.density).toInt()
+        val defaultWidth = displayMetrics.widthPixels - horizontalPaddingPx * 2
+        val defaultHeight = (250 * displayMetrics.density).toInt()
+
+        binding.clipOverlay.setCropSize(defaultWidth, defaultHeight)
+
+
         // ✅ 设置缩放范围
         binding.photoView.minimumScale = 0.3f   // 原图比例，防止缩太小
         binding.photoView.maximumScale = 4.0f   // 可放大 4 倍，够用户拖动查看细节
