@@ -39,11 +39,7 @@ class PhotoEditFragment : BaseMviFragment<
         binding.photoView.setImageURI(uri)
         binding.photoView.attacher.setAllowDragAtMinScale(true)
 
-        val displayMetrics = resources.displayMetrics
-        val horizontalPaddingPx = (16 * displayMetrics.density).toInt()
-        val defaultWidth = displayMetrics.widthPixels - horizontalPaddingPx * 2
-        val defaultHeight = (250 * displayMetrics.density).toInt()
-
+        val (defaultWidth, defaultHeight) = ThemeKeyboardSizeUtils.getDefaultKeyboardSize(requireContext()).run { width to height }
         binding.clipOverlay.setCropSize(defaultWidth, defaultHeight)
 
 
@@ -52,12 +48,27 @@ class PhotoEditFragment : BaseMviFragment<
         binding.photoView.maximumScale = 4.0f   // 可放大 4 倍，够用户拖动查看细节
 
         binding.btnNext.setOnClickListener {
+//            val croppedBitmap = cropToClipRect(binding.photoView, binding.clipOverlay)
+//            val croppedUri = saveBitmapToCache(croppedBitmap)
+
             val croppedBitmap = cropToClipRect(binding.photoView, binding.clipOverlay)
-            val croppedUri = saveBitmapToCache(croppedBitmap)
+            // 👇 将 bitmap 缩放为 keyboard 实际像素大小（宽：屏幕宽 - padding*2，高：250dp）
+            val (targetWidth, targetHeight) = ThemeKeyboardSizeUtils.getDefaultKeyboardSize(requireContext()).run { width to height }
+
+            val scaledBitmap = resizeBitmapToSize(croppedBitmap, targetWidth, targetHeight)
+            val croppedUri = saveBitmapToCache(scaledBitmap)
+
+
             viewModel.sendIntent(PhotoEditIntent.OnNextClicked(croppedUri))
         }
 
     }
+
+    private fun resizeBitmapToSize(bitmap: Bitmap, targetWidth: Int, targetHeight: Int): Bitmap {
+        if (bitmap.width == targetWidth && bitmap.height == targetHeight) return bitmap
+        return Bitmap.createScaledBitmap(bitmap, targetWidth, targetHeight, true)
+    }
+
 
     override fun render(state: PhotoEditState) {
         if (state.navigateToCustomize && state.editedUri != null) {
@@ -77,7 +88,7 @@ class PhotoEditFragment : BaseMviFragment<
     }
 
 
-    fun cropToClipRect(photoView: PhotoView, overlay: ClipOverlayView): Bitmap {
+    private fun cropToClipRect(photoView: PhotoView, overlay: ClipOverlayView): Bitmap {
         val drawable = photoView.drawable as? BitmapDrawable ?: return Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
         val originalBitmap = drawable.bitmap
 
@@ -86,7 +97,7 @@ class PhotoEditFragment : BaseMviFragment<
         val inverseMatrix = Matrix()
         if (!displayMatrix.invert(inverseMatrix)) {
             // 矩阵不可逆，返回空图
-            return Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
+            return Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565)
         }
 
         // 获取裁剪框（在屏幕坐标系下）
