@@ -37,6 +37,7 @@ class PhotoEditFragment : BaseMviFragment<
     override fun setupViews() {
         val uri = Uri.parse(requireArguments().getString("uri"))
         binding.photoView.setImageURI(uri)
+        binding.photoView.attacher.setAllowDragAtMinScale(true)
 
         // ✅ 设置缩放范围
         binding.photoView.minimumScale = 0.3f   // 原图比例，防止缩太小
