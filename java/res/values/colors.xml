@@ -69,4 +69,5 @@
 
     <color name="key_feedback_color_lxx_dark">#3d484d</color>
     <color name="key_feedback_color_lxx_light">#d1d6d9</color>
+    <color name="keyboard_background_dark">#FF1C1D1E</color>
 </resources>
