@@ -96,6 +96,10 @@ class ThemeCustomizeFragment : BaseMviFragment<
             viewModel.sendIntent(ThemeCustomizeIntent.SwitchTheme(isChecked))
         }
 
+        binding.btnCancel.setOnClickListener {
+            activity?.onBackPressed()
+        }
+
         binding.btnApply.setOnClickListener {
             Log.d(TAG, "Apply button clicked")
             viewModel.sendIntent(ThemeCustomizeIntent.Apply)
